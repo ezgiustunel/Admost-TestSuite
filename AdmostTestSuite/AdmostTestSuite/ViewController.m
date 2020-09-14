@@ -7,10 +7,11 @@
 //
 
 #import "ViewController.h"
+#import <AFNetworking.h>
+#import <AFHTTPSessionManager.h>
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *TBLZone;
-
 @end
 
 #pragma mark - View Lifecycle
@@ -20,64 +21,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"Zones"];
-    // Do any additional setup after loading the view.
+    [self getZones];
+}
+
+#pragma mark - Get Zones
+
+- (void)getZones {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:@"http://med-api.admost.com/v4.1/zones/15066ddc-9c18-492c-8185-bea7e4c7f88c" parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dict = (NSDictionary *)responseObject;
+        self->_zoneList = dict[@"Zones"];
+        [self.TBLZone reloadData];
+    }failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+          NSLog(@"getDeviceScanResults: failure: %@", error.localizedDescription);
+    }];
 }
 
 #pragma mark - UITableView DataSource Methods
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    cell.textLabel.text = @"ezgi";
-    cell.detailTextLabel.text = @"dcdnckdnckdckmkdckdncknckdnkcndkcndnckdnk";
+    cell.textLabel.text = _zoneList[indexPath.row];
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;  //array.count gelmeli
+    return _zoneList.count;  //array.count gelmeli
 }
-
-/*- (void)encodeWithCoder:(nonnull NSCoder *)coder {
-    <#code#>
-}
-
-- (void)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection {
-    <#code#>
-}
-
-- (void)preferredContentSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-    <#code#>
-}
-
-- (CGSize)sizeForChildContentContainer:(nonnull id<UIContentContainer>)container withParentContainerSize:(CGSize)parentSize {
-    <#code#>
-}
-
-- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-    <#code#>
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-    <#code#>
-}
-
-- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-    <#code#>
-}
-
-- (void)didUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context withAnimationCoordinator:(nonnull UIFocusAnimationCoordinator *)coordinator {
-    <#code#>
-}
-
-- (void)setNeedsFocusUpdate {
-    <#code#>
-}
-
-- (BOOL)shouldUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context {
-    <#code#>
-}
-
-- (void)updateFocusIfNeeded {
-    <#code#>
-}*/
 
 @end
