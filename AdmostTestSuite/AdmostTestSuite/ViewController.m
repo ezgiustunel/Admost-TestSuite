@@ -18,66 +18,70 @@
 #pragma mark - View Lifecycle
 
 @implementation ViewController {
-    UILabel *noDataLabel;
-    UIRefreshControl *refreshControl;
+    UILabel *_noDataLabel;
+    UIRefreshControl *_refreshControl;
 }
-
+ 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _TBLZone.bounds.size.width, _TBLZone.bounds.size.height)];
-    refreshControl = [[UIRefreshControl alloc] init];
-    noDataLabel.hidden = YES;
-    noDataLabel.text = @"";
+    
+    _noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _TBLZone.bounds.size.width, _TBLZone.bounds.size.height)];
+    [self setNoDataLabelHidden:YES];
+    
+    self->_noDataLabel.text = @"No data available";
+    self->_noDataLabel.textColor = [UIColor blackColor];
+    self->_noDataLabel.textAlignment = NSTextAlignmentCenter;
+    
+    _refreshControl = [[UIRefreshControl alloc] init];
+    [_refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
+    _refreshControl.tintColor = [UIColor colorWithRed:0.25 green:0.72 blue:0.85 alpha:1.0];
+    _refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"Fetching"];
+    
     _activityView.hidden = NO;
     [_activityView startAnimating];
+    
     [self.navigationItem setTitle:@"Zones"];
+    
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
-      dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSLog(@"Do some work");
+      dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         [self getZones];
       });
 }
 
 #pragma mark - Zone Operations
 
-- (void)getZones {
+- (void)loadZones:(NSString *) appId {
+    NSString *zoneURL = [NSString stringWithFormat:@"http://med-api.admost.com/v4.1/zones/%@", appId];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:@"http://med-api.admost.com/v4.1/zones/15066ddc-9c18-492c-8185-bea7e4c7f88c" parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:zoneURL parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = (NSDictionary *)responseObject;
+        
         self->_zoneList = dict[@"Zones"];
+        
         [self.TBLZone reloadData];
+        
         self->_activityView.hidden = YES;
         [self->_activityView stopAnimating];
+        
     }failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
           NSLog(@"getDeviceScanResults: failure: %@", error.localizedDescription);
     }];
 }
 
+- (void)getZones {
+    [self loadZones:@"15066ddc-9c18-492c-8185-bea7e4c7f88c"];
+}
+
 - (void)refreshZones {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:@"http://med-api.admost.com/v4.1/zones/1b210a41-6566-4fb9-9e6c-0c1a132bb858" parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = (NSDictionary *)responseObject;
-        self->_zoneList = dict[@"Zones"];
-        [self.TBLZone reloadData];
-        self->_activityView.hidden = YES;
-        [self->_activityView stopAnimating];
-    }failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-          NSLog(@"getDeviceScanResults: failure: %@", error.localizedDescription);
-    }];
+    [self loadZones:@"1b210a41-6566-4fb9-9e6c-0c1a132bb858"];
 }
 
 #pragma mark - UITableView DataSource Methods
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    [tableView addSubview:refreshControl];
-    [refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
-    refreshControl.tintColor = [UIColor colorWithRed:0.25 green:0.72 blue:0.85 alpha:1.0];
-    refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"Fetching"];
-
+    [tableView addSubview:_refreshControl];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.textLabel.text = _zoneList[indexPath.row];
-    tableView.dragInteractionEnabled = YES;
-
     return cell;
 }
 
@@ -89,39 +93,34 @@
     return _zoneList.count;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger numOfSections = 0;
-    if (_zoneList.count > 0)
-    {
-        //_TBLZone.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+        [self endRefreshControl:self->_refreshControl];
+    });
+    
+    if (_zoneList.count > 0) {
         numOfSections = 1;
-        
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            if(self->refreshControl.refreshing) {
-                [self->refreshControl endRefreshing];
-            }
-            /*self->refreshControl = nil;
-            [self->refreshControl endRefreshing];
-            [self->refreshControl removeFromSuperview];*/
-        });
- 
-        //_TBLZone.backgroundView = nil;
     }
-    else
-    {
+    else {
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            self->noDataLabel.hidden = NO;
-            self->noDataLabel.text = @"No data available";
-            self->noDataLabel.textColor = [UIColor blackColor];
-            self->noDataLabel.textAlignment = NSTextAlignmentCenter;
-            //self->_TBLZone.backgroundView = self->noDataLabel;
-            //self->_TBLZone.separatorStyle = UITableViewCellSeparatorStyleNone;
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            [self setNoDataLabelHidden:NO];
         });
     }
     return numOfSections;
+}
+
+- (void)setNoDataLabelHidden:(BOOL)hidden {
+    _noDataLabel.hidden = hidden;
+}
+
+- (void)endRefreshControl:(UIRefreshControl *)refreshControl {
+    if(refreshControl.refreshing) {
+        [refreshControl endRefreshing];
+    }
 }
 
 @end
