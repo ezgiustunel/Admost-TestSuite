@@ -12,6 +12,7 @@
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *TBLZone;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @end
 
 #pragma mark - View Lifecycle
@@ -20,11 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _activityView.hidden = NO;
+    [_activityView startAnimating];
     [self.navigationItem setTitle:@"Zones"];
     [self getZones];
 }
 
-#pragma mark - Get Zones
+#pragma mark - Zone Operations
 
 - (void)getZones {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -32,6 +35,8 @@
         NSDictionary *dict = (NSDictionary *)responseObject;
         self->_zoneList = dict[@"Zones"];
         [self.TBLZone reloadData];
+        self->_activityView.hidden = YES;
+        [self->_activityView stopAnimating];
     }failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
           NSLog(@"getDeviceScanResults: failure: %@", error.localizedDescription);
     }];
