@@ -59,10 +59,8 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     [tableView addSubview:_zoneDataSource.refreshControl];
-    //[tableView addSubview:_refreshControl];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.textLabel.text = _zoneDataSource.zoneList[indexPath.row];
-    //cell.textLabel.text = _zoneList[indexPath.row];
     return cell;
 }
 
