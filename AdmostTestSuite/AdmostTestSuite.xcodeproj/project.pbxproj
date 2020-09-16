@@ -19,6 +19,7 @@
 		9BD00B44250F8C41002B638A /* AdmostTestSuiteUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD00B43250F8C41002B638A /* AdmostTestSuiteUITests.m */; };
 		B1B019EDC2B7E8D556CA7A9D /* Pods_AdmostTestSuite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C765BE352DBF40CE21FD759F /* Pods_AdmostTestSuite.framework */; };
 		D19F91C146001DC7CACDECC1 /* Pods_AdmostTestSuite_AdmostTestSuiteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A5F7129B21940DF17478411 /* Pods_AdmostTestSuite_AdmostTestSuiteUITests.framework */; };
+		ED62E6882511FA53003424AE /* AMRZoneDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = ED62E6872511FA53003424AE /* AMRZoneDataSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		BC78E5D4B9597006E78DA200 /* Pods-AdmostTestSuiteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdmostTestSuiteTests.release.xcconfig"; path = "Target Support Files/Pods-AdmostTestSuiteTests/Pods-AdmostTestSuiteTests.release.xcconfig"; sourceTree = "<group>"; };
 		C765BE352DBF40CE21FD759F /* Pods_AdmostTestSuite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdmostTestSuite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC276AB7036E678950881CB8 /* Pods-AdmostTestSuite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdmostTestSuite.debug.xcconfig"; path = "Target Support Files/Pods-AdmostTestSuite/Pods-AdmostTestSuite.debug.xcconfig"; sourceTree = "<group>"; };
+		ED62E6862511FA53003424AE /* AMRZoneDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMRZoneDataSource.h; sourceTree = "<group>"; };
+		ED62E6872511FA53003424AE /* AMRZoneDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMRZoneDataSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +145,8 @@
 				9BD00B2A250F8C41002B638A /* LaunchScreen.storyboard */,
 				9BD00B2D250F8C41002B638A /* Info.plist */,
 				9BD00B2E250F8C41002B638A /* main.m */,
+				ED62E6862511FA53003424AE /* AMRZoneDataSource.h */,
+				ED62E6872511FA53003424AE /* AMRZoneDataSource.m */,
 			);
 			path = AdmostTestSuite;
 			sourceTree = "<group>";
@@ -416,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BD00B24250F8C40002B638A /* ViewController.m in Sources */,
+				ED62E6882511FA53003424AE /* AMRZoneDataSource.m in Sources */,
 				9BD00B1E250F8C40002B638A /* AppDelegate.m in Sources */,
 				9BD00B2F250F8C41002B638A /* main.m in Sources */,
 				9BD00B21250F8C40002B638A /* SceneDelegate.m in Sources */,

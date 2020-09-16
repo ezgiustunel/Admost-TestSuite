@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "AMRZoneDataSource.h"
 #import <AFNetworking.h>
 #import <AFHTTPSessionManager.h>
 
@@ -20,6 +21,7 @@
 @implementation ViewController {
     UILabel *_noDataLabel;
     UIRefreshControl *_refreshControl;
+    AMRZoneDataSource *_zoneDataSource;
 }
  
 - (void)viewDidLoad {
@@ -28,9 +30,9 @@
     _noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _TBLZone.bounds.size.width, _TBLZone.bounds.size.height)];
     [self setNoDataLabelHidden:YES];
     
-    self->_noDataLabel.text = @"No data available";
-    self->_noDataLabel.textColor = [UIColor blackColor];
-    self->_noDataLabel.textAlignment = NSTextAlignmentCenter;
+    _noDataLabel.text = @"No data available";
+    _noDataLabel.textColor = [UIColor blackColor];
+    _noDataLabel.textAlignment = NSTextAlignmentCenter;
     
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
@@ -38,13 +40,16 @@
     _refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"Fetching"];
     
     _activityView.hidden = NO;
-    [_activityView startAnimating];
     
     [self.navigationItem setTitle:@"Zones"];
     
+    _zoneDataSource = [AMRZoneDataSource new];
+    // load zones
+    
+    [_activityView startAnimating];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
       dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-        [self getZones];
+        [self loadZones:@"15066ddc-9c18-492c-8185-bea7e4c7f88c"];
       });
 }
 
@@ -53,6 +58,7 @@
 - (void)loadZones:(NSString *) appId {
     NSString *zoneURL = [NSString stringWithFormat:@"http://med-api.admost.com/v4.1/zones/%@", appId];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
     [manager GET:zoneURL parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = (NSDictionary *)responseObject;
         
@@ -68,14 +74,6 @@
     }];
 }
 
-- (void)getZones {
-    [self loadZones:@"15066ddc-9c18-492c-8185-bea7e4c7f88c"];
-}
-
-- (void)refreshZones {
-    [self loadZones:@"1b210a41-6566-4fb9-9e6c-0c1a132bb858"];
-}
-
 #pragma mark - UITableView DataSource Methods
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -86,10 +84,11 @@
 }
 
 - (void)refreshTableView {
-    [self refreshZones];
+    [self loadZones:@"1b210a41-6566-4fb9-9e6c-0c1a132bb858"];
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // data source -> zoneList.count
     return _zoneList.count;
 }
 
