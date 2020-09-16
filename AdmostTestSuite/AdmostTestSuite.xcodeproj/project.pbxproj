@@ -17,6 +17,7 @@
 		9BD00B2F250F8C41002B638A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD00B2E250F8C41002B638A /* main.m */; };
 		9BD00B39250F8C41002B638A /* AdmostTestSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD00B38250F8C41002B638A /* AdmostTestSuiteTests.m */; };
 		9BD00B44250F8C41002B638A /* AdmostTestSuiteUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD00B43250F8C41002B638A /* AdmostTestSuiteUITests.m */; };
+		9BD00BA025123A8B002B638A /* AMRZoneDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD00B9F25123A8B002B638A /* AMRZoneDataSource.m */; };
 		B1B019EDC2B7E8D556CA7A9D /* Pods_AdmostTestSuite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C765BE352DBF40CE21FD759F /* Pods_AdmostTestSuite.framework */; };
 		D19F91C146001DC7CACDECC1 /* Pods_AdmostTestSuite_AdmostTestSuiteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A5F7129B21940DF17478411 /* Pods_AdmostTestSuite_AdmostTestSuiteUITests.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +62,8 @@
 		9BD00B3F250F8C41002B638A /* AdmostTestSuiteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdmostTestSuiteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BD00B43250F8C41002B638A /* AdmostTestSuiteUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdmostTestSuiteUITests.m; sourceTree = "<group>"; };
 		9BD00B45250F8C41002B638A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9BD00B9E25123A8A002B638A /* AMRZoneDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMRZoneDataSource.h; sourceTree = "<group>"; };
+		9BD00B9F25123A8B002B638A /* AMRZoneDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMRZoneDataSource.m; sourceTree = "<group>"; };
 		B01065A15A367C10C0AFF857 /* Pods-AdmostTestSuite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdmostTestSuite.release.xcconfig"; path = "Target Support Files/Pods-AdmostTestSuite/Pods-AdmostTestSuite.release.xcconfig"; sourceTree = "<group>"; };
 		B5F676D805EC19AA4F9E44F6 /* Pods-AdmostTestSuite-AdmostTestSuiteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdmostTestSuite-AdmostTestSuiteUITests.release.xcconfig"; path = "Target Support Files/Pods-AdmostTestSuite-AdmostTestSuiteUITests/Pods-AdmostTestSuite-AdmostTestSuiteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BC78E5D4B9597006E78DA200 /* Pods-AdmostTestSuiteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdmostTestSuiteTests.release.xcconfig"; path = "Target Support Files/Pods-AdmostTestSuiteTests/Pods-AdmostTestSuiteTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +140,8 @@
 				9BD00B20250F8C40002B638A /* SceneDelegate.m */,
 				9BD00B22250F8C40002B638A /* ViewController.h */,
 				9BD00B23250F8C40002B638A /* ViewController.m */,
+				9BD00B9E25123A8A002B638A /* AMRZoneDataSource.h */,
+				9BD00B9F25123A8B002B638A /* AMRZoneDataSource.m */,
 				9BD00B25250F8C40002B638A /* Main.storyboard */,
 				9BD00B28250F8C41002B638A /* Assets.xcassets */,
 				9BD00B2A250F8C41002B638A /* LaunchScreen.storyboard */,
@@ -416,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BD00B24250F8C40002B638A /* ViewController.m in Sources */,
+				9BD00BA025123A8B002B638A /* AMRZoneDataSource.m in Sources */,
 				9BD00B1E250F8C40002B638A /* AppDelegate.m in Sources */,
 				9BD00B2F250F8C41002B638A /* main.m in Sources */,
 				9BD00B21250F8C40002B638A /* SceneDelegate.m in Sources */,
