@@ -10,25 +10,13 @@
 #import <AFNetworking.h>
 #import <AFHTTPSessionManager.h>
 
-@implementation AMRZoneDataSource {
+@implementation AMRZoneDataSource
+
+#pragma mark - Data
+
+- (NSMutableArray *)loadZonesForAppId:(NSString *)appId
+                           completion:(void (^)(NSMutableArray * _Nonnull))completion {
     
-}
-
-- (void)noDataLabelOperations:(NSString *)text tableView:(UITableView *)tableView {
-    _noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, tableView.bounds.size.height)];
-    _noDataLabel.text = text;
-    _noDataLabel.textColor = [UIColor blackColor];
-    _noDataLabel.textAlignment = NSTextAlignmentCenter;
-}
-
-- (void)refreshControlOperations {
-    _refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor colorWithRed:0.25 green:0.72 blue:0.85 alpha:1.0];
-    _refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"Fetching"];
-}
-
-- (NSMutableArray *)loadZones:(NSString *)appId
-                   completion:(nullable void (^)(NSMutableArray * _Nonnull))completion {
     NSString *zoneURL = [NSString stringWithFormat:@"http://med-api.admost.com/v4.1/zones/%@", appId];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -44,16 +32,6 @@
     }];
     
     return _zoneList;
-}
-
-- (void)setNoDataLabelHidden:(BOOL)hidden {
-    _noDataLabel.hidden = hidden;
-}
-
-- (void)endRefreshControl {
-    if(_refreshControl.refreshing) {
-        [_refreshControl endRefreshing];
-    }
 }
 
 @end

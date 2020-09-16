@@ -11,16 +11,9 @@
 
 
 @interface AMRZoneDataSource : NSObject
-@property(nonatomic, strong) NSMutableArray *zoneList;
-@property(nonatomic, strong) UILabel *noDataLabel;
-@property(nonatomic, strong) UIRefreshControl *refreshControl;
+@property(nonatomic, strong) NSMutableArray * _Nullable zoneList;
 
-- (void)noDataLabelOperations:(NSString *)text tableView:(UITableView *)tableView;
-- (void)refreshControlOperations;
-- (void)setNoDataLabelHidden:(BOOL)hidden;
-- (void)endRefreshControl;
-
-- (NSMutableArray *)loadZones:(NSString *)appId
-                   completion:(nullable void (^)(NSMutableArray * _Nonnull))completion;
+- (NSMutableArray *)loadZonesForAppId:(NSString *)appId
+                           completion:(void (^)(NSMutableArray * _Nonnull))completion;
 
 @end
